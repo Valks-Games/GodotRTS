@@ -17,11 +17,7 @@ public partial class Game : Node
 
     public override void _Ready()
     {
-        timerUpdate = new GTimer(this, Update, 500) {
-            Loop = true
-        };
-        timerUpdate.StartMs();
-
+        timerUpdate = new GRepeatingTimer(this, Update, 500);
         team1UnitsParent = GetNode("Team 1/Units");
         Team1Base = GetNode<Base>("Team 1/Base");
         GetResources();
