@@ -33,9 +33,10 @@ public partial class Unit : RigidBody2D, IEntity
 
         UnsubscribeFromOldEvents();
 
-        // Resource could be destroyed in the future, lets listen for this
+        // Target could be destroyed in the future, lets listen for this
         target.OnDestroyed += DoSomethingIfTargetDestroyed;
 
+        // Do not wait for timer to update direction, update direction instantly
         UpdateDirection();
     }
 
