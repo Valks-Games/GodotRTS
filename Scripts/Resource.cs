@@ -1,6 +1,6 @@
-using Godot;
-using System;
+namespace GodotRTS;
 
-public partial class Resource : Node
+public partial class Resource : Node2D
 {
+
 }
