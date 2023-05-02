@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://b8i1mt0p3vi1j"]
 
-[ext_resource type="Script" path="res://Scripts/2D Top Down/Player.cs" id="1_hrosf"]
-[ext_resource type="Texture2D" uid="uid://q80kt62wvbpp" path="res://Sprites/UI/icon.svg" id="2_83qsm"]
-[ext_resource type="PackedScene" uid="uid://c6pism2kgjr5c" path="res://Scenes/Prefabs/popup_menu.tscn" id="2_ep4f7"]
+[ext_resource type="Script" path="res://Scripts/2D Top Down/Player.cs" id="1_2hrya"]
+[ext_resource type="Texture2D" uid="uid://q80kt62wvbpp" path="res://Sprites/UI/icon.svg" id="2_170da"]
+[ext_resource type="PackedScene" uid="uid://c6pism2kgjr5c" path="res://Scenes/Prefabs/popup_menu.tscn" id="3_c7o70"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4su66"]
 size = Vector2(125, 125)
@@ -11,15 +11,15 @@ size = Vector2(125, 125)
 
 [node name="Player" type="CharacterBody2D" parent="."]
 position = Vector2(531, 300)
-script = ExtResource("1_hrosf")
+script = ExtResource("1_2hrya")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
 shape = SubResource("RectangleShape2D_4su66")
 
 [node name="Sprite2D" type="Sprite2D" parent="Player"]
-texture = ExtResource("2_83qsm")
+texture = ExtResource("2_170da")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="PopupMenu" parent="CanvasLayer" instance=ExtResource("2_ep4f7")]
+[node name="PopupMenu" parent="CanvasLayer" instance=ExtResource("3_c7o70")]
 visible = false
