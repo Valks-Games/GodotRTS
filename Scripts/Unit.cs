@@ -10,6 +10,7 @@ public partial class Unit : RigidBody2D, IEntity
     private IEntity prevTarget;
     private float speed = 150;
     private GTimer timerUpdate;
+    private readonly HashSet<Unit> toSkip = new();
 
     public override void _Ready()
     {
@@ -22,11 +23,19 @@ public partial class Unit : RigidBody2D, IEntity
         {
             if (body is Unit unit)
             {
+                if (toSkip.Contains(unit))
+                {
+                    toSkip.Remove(unit);
+                    return;
+                }
+
                 var dirA = Direction;
                 var dirB = unit.Direction;
 
                 Direction = dirB.Orthogonal();
                 unit.Direction = -dirA.Orthogonal();
+
+                unit.toSkip.Add(this);
             }
         };
     }
