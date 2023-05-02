@@ -4,7 +4,7 @@ public partial class GameResource : Node2D
 {
     [Signal] public delegate void DestroyedEventHandler();
 
-    public Area2D areaDetect;
+    private Area2D areaDetect;
 
     public override void _Ready()
     {
