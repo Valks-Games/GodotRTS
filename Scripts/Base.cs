@@ -30,5 +30,6 @@ public partial class Base : Node2D
     public void Destroy()
     {
         EmitSignal(SignalName.Destroyed);
+        QueueFree();
     }
 }
