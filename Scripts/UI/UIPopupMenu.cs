@@ -1,4 +1,4 @@
-namespace Template;
+namespace GodotRTS;
 
 public partial class UIPopupMenu : Control
 {

@@ -1,4 +1,4 @@
-﻿namespace Template;
+﻿namespace GodotRTS;
 
 using VSyncMode = DisplayServer.VSyncMode;
 using QualityP = QualityPreset;
@@ -6,7 +6,7 @@ using QualityP = QualityPreset;
 /* 
  * If the ResourceOptions.cs script is moved then the file path will not updated
  * in the .tres file. In order to fix this go to 
- * C:\Users\VALK-DESKTOP\AppData\Roaming\Godot\app_userdata\Template
+ * C:\Users\VALK-DESKTOP\AppData\Roaming\Godot\app_userdata\GodotRTS
  * and delete the .tres file so Godot will be forced to generate it from
  * scratch. This is not a Godot bug it is just something to look out for.
  * 

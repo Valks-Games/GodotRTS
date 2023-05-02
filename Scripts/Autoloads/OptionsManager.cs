@@ -1,4 +1,4 @@
-﻿namespace Template;
+﻿namespace GodotRTS;
 
 using Godot.Collections;
 
