@@ -4,20 +4,36 @@ public partial class Unit : RigidBody2D, IEntity
 {
     public event Action OnDestroyed;
 
-    private Vector2 direction = Vector2.Zero;
-    private IEntity prevTarget, target;
-    private float speed = 25;
-    private GRepeatingTimer timerUpdate;
+    public IEntity Target { get; private set; }
+    public Vector2 Direction { get; private set; } = Vector2.Zero;
+
+    private IEntity prevTarget;
+    private float speed = 150;
+    private GTimer timerUpdate;
 
     public override void _Ready()
     {
         timerUpdate = new(this, Update, 500);
-        MoveToTarget(Game.Resources[0]);
+        timerUpdate.Loop = true;
+        SetPhysicsProcess(false);
+
+        var area = GetNode<Area2D>("Area2D");
+        area.BodyEntered += body =>
+        {
+            if (body is Unit unit)
+            {
+                var dirA = Direction;
+                var dirB = unit.Direction;
+
+                Direction = dirB.Orthogonal();
+                unit.Direction = -dirA.Orthogonal();
+            }
+        };
     }
 
     public override void _PhysicsProcess(double delta)
     {
-        ApplyCentralForce(direction * speed);
+        ApplyCentralForce(Direction * speed);
     }
 
     public void Destroy()
@@ -28,10 +44,14 @@ public partial class Unit : RigidBody2D, IEntity
 
     public void MoveToTarget(IEntity target)
     {
-        prevTarget = this.target;
-        this.target = target;
+        timerUpdate.Start();
+        SetPhysicsProcess(true);
 
-        UnsubscribeFromOldEvents();
+        prevTarget = this.Target;
+        this.Target = target;
+
+        if (prevTarget != null)
+            prevTarget.OnDestroyed -= DoSomethingIfTargetDestroyed;
 
         // Target could be destroyed in the future, lets listen for this
         target.OnDestroyed += DoSomethingIfTargetDestroyed;
@@ -45,20 +65,6 @@ public partial class Unit : RigidBody2D, IEntity
         UpdateDirection();
     }
 
-    private void UnsubscribeFromOldEvents()
-    {
-        if (prevTarget is GameResource)
-        {
-            if (Game.Resources[0] != null)
-                Game.Resources[0].OnDestroyed -= DoSomethingIfTargetDestroyed;
-        }
-        else if (prevTarget is Base)
-        {
-            if (Game.Team1Base != null)
-                Game.Team1Base.OnDestroyed -= DoSomethingIfTargetDestroyed;
-        }
-    }
-
     private void DoSomethingIfTargetDestroyed()
     {
         // maybe do something more interesting later on
@@ -68,6 +74,6 @@ public partial class Unit : RigidBody2D, IEntity
 
     private void UpdateDirection()
     {
-        direction = (target.Position - Position).Normalized();
+        Direction = (Target.Position - Position).Normalized();
     }
 }

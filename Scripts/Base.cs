@@ -16,7 +16,12 @@ public partial class Base : Node2D, IEntity
         areaDetect.BodyEntered += body =>
         {
             if (body is Unit unit)
-                unit.MoveToTarget(Game.Resources[0]);
+            {
+                var nearestResource = Game.FindNearestResource(unit.Position);
+
+                if (nearestResource != null)
+                    unit.MoveToTarget(nearestResource);
+            } 
         };
     }
 

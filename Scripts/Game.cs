@@ -8,13 +8,32 @@ public partial class Game : Node
     private readonly static List<Unit> units = new();
     private static Node team1UnitsParent;
 
+    public static GameResource FindNearestResource(Vector2 position)
+    {
+        GameResource nearestResource = null;
+        float minDistance = Mathf.Inf;
+
+        foreach (var resource in Resources)
+        {
+            var distance = position.DistanceTo(resource.Position);
+
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+                nearestResource = resource;
+            }
+        }
+
+        return nearestResource;
+    }
+
     public static void AddUnit(Unit unit)
     {
         team1UnitsParent.AddChild(unit);
         units.Add(unit);
     }
 
-    public override void _Ready()
+    public override async void _Ready()
     {
         team1UnitsParent = GetNode("Team 1/Units");
         Team1Base = GetNode<Base>("Team 1/Base");
@@ -23,6 +42,7 @@ public partial class Game : Node
         for (int i = 0; i < 3; i++)
         {
             Team1Base.CreateUnit();
+            await Task.Delay(500);
         }
     }
 
