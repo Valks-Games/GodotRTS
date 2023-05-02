@@ -2,9 +2,9 @@ using GodotUtils;
 
 namespace GodotRTS;
 
-public partial class Base : Node2D
+public partial class Base : Node2D, IEntity
 {
-    [Signal] public delegate void DestroyedEventHandler();
+    public event Action OnDestroyed;
 
     private Vector2 unitSpawnPos;
     private Area2D areaDetect;
@@ -16,7 +16,7 @@ public partial class Base : Node2D
         areaDetect.BodyEntered += body =>
         {
             if (body is Unit unit)
-                unit.MoveToResource();
+                unit.MoveToTarget(Game.Resources[0]);
         };
     }
 
@@ -29,7 +29,7 @@ public partial class Base : Node2D
 
     public void Destroy()
     {
-        EmitSignal(SignalName.Destroyed);
+        OnDestroyed?.Invoke();
         QueueFree();
     }
 }

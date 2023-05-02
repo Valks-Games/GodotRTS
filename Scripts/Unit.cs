@@ -1,18 +1,18 @@
 namespace GodotRTS;
 
-public partial class Unit : RigidBody2D
+public partial class Unit : RigidBody2D, IEntity
 {
-    [Signal] public delegate void DestroyedEventHandler();
+    public event Action OnDestroyed;
 
     private Vector2 direction = Vector2.Zero;
-    private Vector2 targetPos = Vector2.Zero;
+    private IEntity prevTarget, target;
     private float speed = 25;
-    private State prevState = State.Idle;
-    private State state;
+    private GRepeatingTimer timerUpdate;
 
     public override void _Ready()
     {
-        MoveToResource();
+        timerUpdate = new(this, Update, 500);
+        MoveToTarget(Game.Resources[0]);
     }
 
     public override void _PhysicsProcess(double delta)
@@ -20,87 +20,53 @@ public partial class Unit : RigidBody2D
         ApplyCentralForce(direction * speed);
     }
 
-    public void Update()
-    {
-        UpdateDirection();
-    }
-
     public void Destroy()
     {
-        EmitSignal(SignalName.Destroyed);
+        OnDestroyed?.Invoke();
         QueueFree();
     }
 
-    public void MoveToResource()
+    public void MoveToTarget(IEntity target)
     {
-        // There are no resources, do nothing
-        if (Game.Resources.Count == 0)
-            return;
+        prevTarget = this.target;
+        this.target = target;
 
-        SwitchState(State.MovingToResource);
-
-        if (prevState == State.MovingToBase)
-        {
-            // This base could have been destroyed before
-            if (Game.Team1Base != null)
-                // No longer need to listen to this event
-                Game.Team1Base.Destroyed -= StopIfTargetDestroyed;
-        }
+        UnsubscribeFromOldEvents();
 
         // Resource could be destroyed in the future, lets listen for this
-        Game.Resources[0].Destroyed += StopIfTargetDestroyed;
+        target.OnDestroyed += DoSomethingIfTargetDestroyed;
 
-        // Update movement direction
-        targetPos = Game.Resources[0].Position;
         UpdateDirection();
     }
 
-    public void MoveToBase()
+    private void Update()
     {
-        // There is no base, do nothing
-        if (Game.Team1Base == null)
-            return;
+        UpdateDirection();
+    }
 
-        SwitchState(State.MovingToBase);
-
-        if (prevState == State.MovingToResource)
+    private void UnsubscribeFromOldEvents()
+    {
+        if (prevTarget is GameResource)
         {
-            // This resource could have been destroyed before
             if (Game.Resources[0] != null)
-                // No longer need to listen to this event
-                Game.Resources[0].Destroyed -= StopIfTargetDestroyed;
+                Game.Resources[0].OnDestroyed -= DoSomethingIfTargetDestroyed;
         }
-
-        // Base could be destroyed in the future, lets listen for this
-        Game.Team1Base.Destroyed += StopIfTargetDestroyed;
-
-        // Update movement direction
-        targetPos = Game.Team1Base.Position;
-        UpdateDirection();
+        else if (prevTarget is Base)
+        {
+            if (Game.Team1Base != null)
+                Game.Team1Base.OnDestroyed -= DoSomethingIfTargetDestroyed;
+        }
     }
 
-    private void StopIfTargetDestroyed()
+    private void DoSomethingIfTargetDestroyed()
     {
-        // maybe switch to something like State.FindSomethingToDo later on
-        state = State.Idle;
+        // maybe do something more interesting later on
+        timerUpdate.Stop();
         SetPhysicsProcess(false);
     }
 
     private void UpdateDirection()
     {
-        direction = (targetPos - Position).Normalized();
+        direction = (target.Position - Position).Normalized();
     }
-
-    private void SwitchState(State state)
-    {
-        prevState = this.state;
-        this.state = state;
-    }
-}
-
-public enum State
-{
-    MovingToResource,
-    MovingToBase,
-    Idle
 }

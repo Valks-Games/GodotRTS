@@ -1,8 +1,8 @@
 namespace GodotRTS;
 
-public partial class GameResource : Node2D
+public partial class GameResource : Node2D, IEntity
 {
-    [Signal] public delegate void DestroyedEventHandler();
+    public event Action OnDestroyed;
 
     private Area2D areaDetect;
     private int amount = 4; // the amount of resource this resource has
@@ -20,14 +20,14 @@ public partial class GameResource : Node2D
                 if (amount <= 0)
                     Destroy();
 
-                unit.MoveToBase();
+                unit.MoveToTarget(Game.Team1Base);
             }
         };
     }
 
     public void Destroy()
     {
-        EmitSignal(SignalName.Destroyed);
+        OnDestroyed?.Invoke();
         QueueFree();
     }
 }
