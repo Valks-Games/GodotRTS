@@ -1,8 +1,7 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=7 format=3 uid="uid://cxr2ntsws1fde"]
 
 [ext_resource type="Texture2D" uid="uid://ptgl7pv2t8a2" path="res://Sprites/UI/gear.png" id="1_cep3b"]
 [ext_resource type="Script" path="res://Scripts/UI/Console/UIConsole.cs" id="1_gs4bw"]
-
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cq5rj"]
 
@@ -70,8 +69,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 4.0
 offset_top = 4.0
-offset_right = 296.0
-offset_bottom = 96.0
+offset_right = -4.0
+offset_bottom = -4.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 20
