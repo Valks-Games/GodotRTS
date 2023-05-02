@@ -1,7 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://b8i1mt0p3vi1j"]
+[gd_scene load_steps=5 format=3 uid="uid://b8i1mt0p3vi1j"]
 
-[ext_resource type="PackedScene" uid="uid://do1xmnw1bkxpl" path="res://Scenes/Prefabs/unit.tscn" id="1_0ntb5"]
-[ext_resource type="PackedScene" uid="uid://cfav88jxj2u65" path="res://Scenes/Prefabs/resource.tscn" id="1_2ib8g"]
+[ext_resource type="PackedScene" uid="uid://b7debobuybsru" path="res://Scenes/Prefabs/resource.tscn" id="1_2ib8g"]
 [ext_resource type="Script" path="res://Scripts/Game.cs" id="1_x1bxr"]
 [ext_resource type="PackedScene" uid="uid://dkuiqbwwsd52x" path="res://Scenes/Prefabs/base.tscn" id="2_7ac6j"]
 [ext_resource type="PackedScene" uid="uid://c6pism2kgjr5c" path="res://Scenes/Prefabs/popup_menu.tscn" id="3_c7o70"]
@@ -15,15 +14,6 @@ script = ExtResource("1_x1bxr")
 position = Vector2(149, 244)
 
 [node name="Units" type="Node2D" parent="Team 1"]
-
-[node name="Unit" parent="Team 1/Units" instance=ExtResource("1_0ntb5")]
-position = Vector2(243, 250)
-
-[node name="Unit2" parent="Team 1/Units" instance=ExtResource("1_0ntb5")]
-position = Vector2(261, 235)
-
-[node name="Unit3" parent="Team 1/Units" instance=ExtResource("1_0ntb5")]
-position = Vector2(265, 257)
 
 [node name="Environment" type="Node2D" parent="."]
 
