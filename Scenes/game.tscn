@@ -1,11 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://b8i1mt0p3vi1j"]
+[gd_scene load_steps=6 format=3 uid="uid://b8i1mt0p3vi1j"]
 
 [ext_resource type="PackedScene" uid="uid://do1xmnw1bkxpl" path="res://Scenes/Prefabs/unit.tscn" id="1_0ntb5"]
 [ext_resource type="PackedScene" uid="uid://cfav88jxj2u65" path="res://Scenes/Prefabs/resource.tscn" id="1_2ib8g"]
+[ext_resource type="Script" path="res://Scripts/Game.cs" id="1_x1bxr"]
 [ext_resource type="PackedScene" uid="uid://dkuiqbwwsd52x" path="res://Scenes/Prefabs/base.tscn" id="2_7ac6j"]
 [ext_resource type="PackedScene" uid="uid://c6pism2kgjr5c" path="res://Scenes/Prefabs/popup_menu.tscn" id="3_c7o70"]
 
-[node name="Level" type="Node2D"]
+[node name="Game" type="Node2D"]
+script = ExtResource("1_x1bxr")
 
 [node name="Team 1" type="Node2D" parent="."]
 
