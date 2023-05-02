@@ -28,10 +28,12 @@ public partial class Unit : RigidBody2D
     public void Destroy()
     {
         EmitSignal(SignalName.Destroyed);
+        QueueFree();
     }
 
     public void MoveToResource()
     {
+        // There are no resources, do nothing
         if (Game.Resources.Count == 0)
             return;
 
@@ -39,17 +41,23 @@ public partial class Unit : RigidBody2D
 
         if (prevState == State.MovingToBase)
         {
-            Game.Team1Base.Destroyed -= StopIfTargetDestroyed;
+            // This base could have been destroyed before
+            if (Game.Team1Base != null)
+                // No longer need to listen to this event
+                Game.Team1Base.Destroyed -= StopIfTargetDestroyed;
         }
 
+        // Resource could be destroyed in the future, lets listen for this
         Game.Resources[0].Destroyed += StopIfTargetDestroyed;
 
+        // Update movement direction
         targetPos = Game.Resources[0].Position;
         UpdateDirection();
     }
 
     public void MoveToBase()
     {
+        // There is no base, do nothing
         if (Game.Team1Base == null)
             return;
 
@@ -57,21 +65,25 @@ public partial class Unit : RigidBody2D
 
         if (prevState == State.MovingToResource)
         {
-            Game.Resources[0].Destroyed -= StopIfTargetDestroyed;
+            // This resource could have been destroyed before
+            if (Game.Resources[0] != null)
+                // No longer need to listen to this event
+                Game.Resources[0].Destroyed -= StopIfTargetDestroyed;
         }
 
+        // Base could be destroyed in the future, lets listen for this
         Game.Team1Base.Destroyed += StopIfTargetDestroyed;
 
+        // Update movement direction
         targetPos = Game.Team1Base.Position;
         UpdateDirection();
     }
 
     private void StopIfTargetDestroyed()
     {
-        if (state == State.MovingToResource)
-        {
-            SetPhysicsProcess(false);
-        }
+        // maybe switch to something like State.FindSomethingToDo later on
+        state = State.Idle;
+        SetPhysicsProcess(false);
     }
 
     private void UpdateDirection()
