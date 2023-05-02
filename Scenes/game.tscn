@@ -1,23 +1,40 @@
 [gd_scene load_steps=5 format=3 uid="uid://b8i1mt0p3vi1j"]
 
-[ext_resource type="Script" path="res://Scripts/2D Top Down/Player.cs" id="1_2hrya"]
-[ext_resource type="Texture2D" uid="uid://q80kt62wvbpp" path="res://Sprites/UI/icon.svg" id="2_170da"]
+[ext_resource type="PackedScene" uid="uid://do1xmnw1bkxpl" path="res://Scenes/Prefabs/unit.tscn" id="1_0ntb5"]
+[ext_resource type="PackedScene" uid="uid://cfav88jxj2u65" path="res://Scenes/Prefabs/resource.tscn" id="1_2ib8g"]
+[ext_resource type="PackedScene" uid="uid://dkuiqbwwsd52x" path="res://Scenes/Prefabs/base.tscn" id="2_7ac6j"]
 [ext_resource type="PackedScene" uid="uid://c6pism2kgjr5c" path="res://Scenes/Prefabs/popup_menu.tscn" id="3_c7o70"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_4su66"]
-size = Vector2(125, 125)
 
 [node name="Level" type="Node2D"]
 
-[node name="Player" type="CharacterBody2D" parent="."]
-position = Vector2(531, 300)
-script = ExtResource("1_2hrya")
+[node name="Team 1" type="Node2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
-shape = SubResource("RectangleShape2D_4su66")
+[node name="Base" parent="Team 1" instance=ExtResource("2_7ac6j")]
+position = Vector2(149, 244)
 
-[node name="Sprite2D" type="Sprite2D" parent="Player"]
-texture = ExtResource("2_170da")
+[node name="Units" type="Node2D" parent="Team 1"]
+
+[node name="Unit" parent="Team 1/Units" instance=ExtResource("1_0ntb5")]
+position = Vector2(243, 250)
+
+[node name="Unit2" parent="Team 1/Units" instance=ExtResource("1_0ntb5")]
+position = Vector2(261, 235)
+
+[node name="Unit3" parent="Team 1/Units" instance=ExtResource("1_0ntb5")]
+position = Vector2(265, 257)
+
+[node name="Environment" type="Node2D" parent="."]
+
+[node name="Resources" type="Node2D" parent="Environment"]
+
+[node name="Resource" parent="Environment/Resources" instance=ExtResource("1_2ib8g")]
+position = Vector2(520, 154)
+
+[node name="Resource2" parent="Environment/Resources" instance=ExtResource("1_2ib8g")]
+position = Vector2(464, 280)
+
+[node name="Resource3" parent="Environment/Resources" instance=ExtResource("1_2ib8g")]
+position = Vector2(660, 410)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

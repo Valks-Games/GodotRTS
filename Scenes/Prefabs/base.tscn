@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://dkuiqbwwsd52x"]
+
+[ext_resource type="Script" path="res://Scripts/Base.cs" id="1_1nyrs"]
+[ext_resource type="Texture2D" uid="uid://q80kt62wvbpp" path="res://Sprites/UI/icon.svg" id="1_um2yy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ybtua"]
+size = Vector2(115, 115)
+
+[node name="Base" type="StaticBody2D"]
+script = ExtResource("1_1nyrs")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0, 0.317647, 1, 1)
+scale = Vector2(0.9, 0.9)
+texture = ExtResource("1_um2yy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ybtua")
