@@ -1,13 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://cfav88jxj2u65"]
+[gd_scene load_steps=5 format=3 uid="uid://b7debobuybsru"]
 
 [ext_resource type="Texture2D" uid="uid://q80kt62wvbpp" path="res://Sprites/UI/icon.svg" id="1_18mu4"]
-[ext_resource type="Script" path="res://Scripts/Resource.cs" id="1_g8e2d"]
+[ext_resource type="Script" path="res://Scripts/GameResource.cs" id="1_n3y1g"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e2s1k"]
 size = Vector2(38, 38)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6ko5o"]
+size = Vector2(75, 75)
+
 [node name="Resource" type="StaticBody2D"]
-script = ExtResource("1_g8e2d")
+script = ExtResource("1_n3y1g")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(0, 1, 0.984314, 1)
@@ -16,3 +19,9 @@ texture = ExtResource("1_18mu4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_e2s1k")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_6ko5o")
+debug_color = Color(0.701961, 0, 0.12549, 0.172549)
